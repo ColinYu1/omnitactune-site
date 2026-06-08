@@ -190,6 +190,10 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 .bib .k{color:#8fb4ff}.bib .s{color:#f0a87a}
 
 .eq{font-style:italic;font-family:'Newsreader',serif}
+.emph-blue{color:var(--blue);font-weight:800}
+.emph-orange{color:var(--orange);font-weight:800}
+.grad-text{background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+.method-kicker{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange);background:var(--orange-soft);padding:5px 12px;border-radius:999px;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -296,7 +300,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 
     <!-- base policies -->
     <h3 style="text-align:center;font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:42px 0 6px">Generalize Across Different Base Policies</h3>
-    <p style="text-align:center;color:var(--ink-soft);max-width:700px;margin:0 auto 18px">The same residual adaptation pipeline plugs into architecturally diverse visual base policies.</p>
+    <p style="text-align:center;color:var(--ink-soft);max-width:760px;margin:0 auto 18px">The same residual adaptation pipeline plugs into visual base policies that differ in <span class="emph-blue">observations</span>, <span class="emph-orange">data sources</span>, <span class="emph-blue">architectures</span>, and <span class="emph-orange">action-chunk horizons</span>.</p>
     <div class="grid2">
       <figure class="video-card">
         <div class="vid-wrap"><video src="static/videos/base_flow.mp4" poster="static/posters/base_flow.jpg" autoplay loop muted playsinline preload="metadata"></video></div>
@@ -377,7 +381,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       <h2>What is OmniTacTune?</h2>
     </div>
     <p class="lead narrow" style="text-align:center;margin-bottom:26px">
-      OmniTacTune is a <b>policy-agnostic real-world RL pipeline</b> that adapts tactile feedback to pretrained visual policies through <b>residual correction</b>. It keeps the visual policy frozen as a motion prior and learns a lightweight tactile residual that fixes the contact-rich "last mile" — generalizing across diverse tasks, base policies, and tactile representations.
+      OmniTacTune is a <span class="grad-text">policy-agnostic real-world RL pipeline</span> that adapts tactile feedback to pretrained visual policies through <span class="emph-blue">residual correction</span>. It keeps the visual policy <span class="emph-orange">frozen as a motion prior</span> and learns a lightweight tactile residual that fixes the contact-rich <span class="emph-blue">last mile</span> — generalizing across diverse tasks, base policies, and tactile representations.
     </p>
     <figure class="fig">
       <img src="static/figs/teaser.png" alt="OmniTacTune teaser: visual base policies, two-stage tactile residual RL, and four real-world tasks."/>
@@ -420,7 +424,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       <h2>Generated Flow for Policy Guidance and Reward Shaping</h2>
     </div>
     <p class="lead narrow" style="text-align:center;margin:0 auto 20px">
-      OmniTacTune generates object-centric flow from the initial observation to provide two complementary signals: motion guidance for both the base policy and the residual policy, and a dense flow-derived reward during residual RL. This generated task-level guidance encourages smoother object-centric trajectories while making real-world training more efficient and reliable.
+      OmniTacTune generates <span class="emph-blue">object-centric flow</span> from the initial observation to provide two complementary signals: <span class="emph-orange">motion guidance</span> for both the base policy and the residual policy, and a <span class="emph-blue">dense flow-derived reward</span> during residual RL. This generated task-level guidance encourages <span class="emph-orange">smoother object-centric trajectories</span> while making real-world training more efficient and reliable.
     </p>
     <div class="grid3 flow-grid">
       <div class="shared-demo-frame">
@@ -454,12 +458,16 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       </figure>
     </div>
 
-    <p class="lead narrow" style="text-align:center;margin:34px auto 22px">
-      Because the warm-start buffer holds only a few real contact trajectories, we use <b>ControlTac</b> to expand tactile diversity without any extra robot interaction. We first remove the marker pattern from a real tactile image to obtain a marker-free reference, generate new tactile images under different contact forces (<span class="eq">&Delta;F</span>), and then composite the original markers back. Robot states, actions, flow features, and rewards stay unchanged — only the tactile images vary — exposing the encoder and critic to richer contact-force and contact-pose conditions.
+    <div class="sec-head" style="margin-top:42px;margin-bottom:10px">
+      <span class="eyebrow">Tactile Data Augmentation</span>
+      <h2>ControlTac Augmentation for Warm-Start Tactile Learning</h2>
+    </div>
+    <p class="lead narrow" style="text-align:center;margin:0 auto 22px">
+      Because the warm-start buffer holds only a few real contact trajectories, we use <span class="grad-text">ControlTac</span> to expand tactile diversity <span class="emph-orange">without any extra robot interaction</span>. We first remove the marker pattern from a real tactile image to obtain a marker-free reference, generate new tactile images under different contact forces (<span class="eq">&Delta;F</span>), and then composite the original markers back. <span class="emph-blue">Robot states, actions, flow features, and rewards stay unchanged</span> — only the tactile images vary — exposing the encoder and critic to richer <span class="emph-orange">contact-force</span> and <span class="emph-orange">contact-pose</span> conditions.
     </p>
     <figure class="fig">
       <img src="static/figs/controltac.png" alt="ControlTac augmentation: remove markers, generate marker-free tactile images under different contact forces, then composite markers back."/>
-      <figcaption><b>ControlTac trajectory-level augmentation.</b> A real tactile image is converted to a marker-free reference, perturbed to new contact forces (e.g. <span class="eq">&Delta;F = &minus;3N</span> and <span class="eq">&Delta;F = +3N</span>) via ControlTac, and recomposed with the original marker mask — producing physically plausible tactile variants for warm-start.</figcaption>
+      <figcaption><b><span class="emph-orange">ControlTac trajectory-level augmentation.</span></b> A real tactile image is converted to a marker-free reference, perturbed to new contact forces (e.g. <span class="eq">&Delta;F = &minus;3N</span> and <span class="eq">&Delta;F = +3N</span>) via ControlTac, and recomposed with the original marker mask — producing <b><span class="emph-blue">physically plausible tactile variants</span></b> for warm-start.</figcaption>
     </figure>
   </div>
 </section>
@@ -491,7 +499,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:23px;margin:0 0 16px">2. Generalizing Across Visual Base Policies</h3>
     <div class="split">
       <div>
-        <p>The residual pipeline is <b>not tied to a specific policy architecture</b>. On Peg-in-Hole, OmniTacTune improves five different base policies — trained from human videos or teleoperation — within <b>~50 minutes</b> of real-world practice.</p>
+        <p>The residual pipeline is <span class="emph-blue">not tied to a specific policy architecture</span>. On Peg-in-Hole, OmniTacTune improves five different base policies with different <span class="emph-orange">observations</span>, <span class="emph-blue">data sources</span>, <span class="emph-orange">architectures</span>, and <span class="emph-blue">action chunks</span> — within <b>~50 minutes</b> of real-world practice.</p>
         <p>It lifts every base policy by <b>+40% to +60%</b> success, reaching <b>75–100%</b>. The human flow policy yields the smoothest motion prior and the highest final performance.</p>
         <div style="margin-top:12px">
           <span class="pill">Flow +40–60%</span>
