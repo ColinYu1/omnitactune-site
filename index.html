@@ -437,19 +437,16 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <div class="lead narrow method-challenges" style="text-align:center">
       <span class="emph-red">Implementation Challenges:</span>
       adapting a new <span class="emph-orange">tactile modality</span> to a frozen visual policy is difficult because
-      visual demonstrations provide motion priors but no offline <span class="emph-orange">tactile interaction data</span>
+      visual demonstrations don't provide offline <span class="emph-orange">tactile interaction data</span>
       for replay buffer and critic initialization. Moreover, off-the-shelf
       <span class="emph-red">tactile encoders</span> are not directly reliable under task-specific contact distributions. 
-      OmniTacTune therefore first uses autonomous base-policy rollouts and
-      <span class="emph-blue">ControlTac augmentation</span> to initialize a replay buffer, adapt the encoder,
-      and bootstrap a <span class="emph-orange">flow-tactile critic</span> before online residual RL.
     </div>
     <div class="lead narrow method-stages" style="text-align:center">
       <span class="emph-blue">Stage 1 — Tactile-Aware Bootstrapping:</span>
       autonomous rollouts of the <span class="emph-purple">frozen base policy</span> initialize the
       <span class="emph-green">replay buffer</span>, bootstrap a
       <span class="emph-orange">flow-tactile critic</span>, and adapt the
-      <span class="emph-red">tactile encoder</span> with
+      <span class="emph-red">tactile encoder</span> using
       <span class="emph-blue">ControlTac augmentation</span>.
       <span class="stage-gap"></span>
       <span class="emph-orange">Stage 2 — Online RL:</span>
