@@ -290,7 +290,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 
     <!-- training demo -->
     <h3 style="text-align:center;font-family:'Newsreader',serif;font-weight:600;font-size:24px;margin:38px 0 6px">Training Demonstration</h3>
-    <p style="text-align:center;color:var(--ink-soft);max-width:680px;margin:0 auto 18px">A <b>one-take demo</b> of online real-world RL — the policy is <b>trained in ~40 minutes</b> directly on hardware, with no resets staged for the camera.</p>
+    <p style="text-align:center;color:var(--ink-soft);max-width:680px;margin:0 auto 18px">A <span class="emph-blue">one-take demo</span> of online real-world RL — the policy is <span class="emph-orange">trained in ~40 minutes</span> directly on hardware, with no resets staged for the camera.</p>
     <figure class="video-card" style="max-width:760px;margin:0 auto">
       <div class="vid-wrap">
         <video src="static/videos/training.mp4" poster="static/posters/training.jpg" autoplay loop muted playsinline preload="metadata"></video>
@@ -348,25 +348,25 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <div class="insight-list">
       <div class="insight">
         <div class="n">1</div>
-        <p>Visual data is <b>abundant</b>, and the visual policies trained on it are <b>strong</b> — but vision alone struggles with <b>contact-rich manipulation</b>, where success hinges on local force and contact geometry that cameras cannot measure.</p>
+        <p>Visual data is <span class="emph-blue">abundant</span>, and the visual policies trained on it are <span class="emph-blue">strong</span> — but vision alone struggles with <span class="emph-orange">contact-rich manipulation</span>, where success hinges on local force and contact geometry that cameras cannot measure.</p>
       </div>
       <div class="insight">
         <div class="n">2</div>
-        <p>Tactile data is <b>highly informative</b> for contact, yet it is <b>far harder to collect</b> than visual data and tends to <b>waste the abundant visual data</b> already available if you try to scale it from scratch.</p>
+        <p>Tactile data is <span class="emph-orange">highly informative</span> for contact, yet it is <span class="emph-orange">far harder to collect</span> than visual data and tends to <span class="emph-blue">waste the abundant visual data</span> already available if you try to scale it from scratch.</p>
       </div>
       <div class="insight">
         <div class="n">3</div>
-        <p>We want an <b>efficient, generalizable, and robust</b> pipeline that <b>adds tactile feedback on top of an existing visual policy</b> — rather than retraining a visuo-tactile policy from scratch.</p>
+        <p>We want an <span class="grad-text">efficient, generalizable, and robust</span> pipeline that <span class="emph-orange">adds tactile feedback on top of an existing visual policy</span> — rather than retraining a visuo-tactile policy from scratch.</p>
       </div>
       <div class="insight">
         <div class="n">4</div>
-        <p>Inspired by <b>how humans learn</b>: after acquiring a visual prior through imitation, we use <b>online practice</b> — interacting with the world through touch — to learn the contact strategy that completes the task.</p>
+        <p>Inspired by <span class="emph-blue">how humans learn</span>: after acquiring a visual prior through imitation, we use <span class="emph-orange">online practice</span> — interacting with the world through touch — to learn the contact strategy that completes the task.</p>
       </div>
     </div>
 
     <figure class="fig" style="margin-top:26px">
       <img src="static/figs/insight.svg" alt="Vision provides scalable global priors; touch provides local residual feedback; OmniTacTune combines them like human learning."/>
-      <figcaption><b>Vision and touch play complementary roles.</b> Vision provides broad, scalable supervision for task-level behavior; touch provides local, residual feedback for the last mile of physical interaction.</figcaption>
+      <figcaption><span class="emph-blue">Vision and touch play complementary roles.</span> Vision provides broad, scalable supervision for task-level behavior; touch provides local, residual feedback for the last mile of physical interaction.</figcaption>
     </figure>
   </div>
 </section>
@@ -385,7 +385,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     </p>
     <figure class="fig">
       <img src="static/figs/teaser.png" alt="OmniTacTune teaser: visual base policies, two-stage tactile residual RL, and four real-world tasks."/>
-      <figcaption><b>OmniTacTune</b> adapts tactile feedback to diverse visual base policies trained from human videos or robot data <b>(left)</b> through a two-stage real-world tactile residual RL pipeline <b>(middle)</b>, enabling efficient tactile adaptation across challenging contact-rich manipulation tasks <b>(right)</b>.</figcaption>
+      <figcaption><span class="grad-text">OmniTacTune</span> adapts tactile feedback to diverse visual base policies trained from human videos or robot data <span class="emph-blue">(left)</span> through a two-stage real-world tactile residual RL pipeline <span class="emph-orange">(middle)</span>, enabling efficient tactile adaptation across challenging contact-rich manipulation tasks <span class="emph-blue">(right)</span>.</figcaption>
     </figure>
   </div>
 </section>
@@ -411,12 +411,12 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">Method</span><h2>Two-Stage Real-World Tactile Residual RL</h2></div>
     <p class="lead narrow" style="text-align:center;margin-bottom:26px">
-      <b>Stage 1 — Warm-start:</b> autonomous rollouts of the frozen base policy initialize the replay buffer, bootstrap a flow-tactile critic, and adapt the tactile encoder (with ControlTac augmentation).
-      <b>Stage 2 — Online RL:</b> a lightweight residual policy learns contact-aware corrections on top of the frozen visual policy, guided by an object-centric multi-sensory reward.
+      <span class="emph-blue">Stage 1 — Warm-start:</span> autonomous rollouts of the frozen base policy initialize the replay buffer, bootstrap a flow-tactile critic, and adapt the tactile encoder (with ControlTac augmentation).
+      <span class="emph-orange">Stage 2 — Online RL:</span> a lightweight residual policy learns contact-aware corrections on top of the frozen visual policy, guided by an object-centric multi-sensory reward.
     </p>
     <figure class="fig">
       <img src="static/figs/pipeline.png" alt="System overview: data collection and base policies; two-stage warm-start and policy learning; dense reward shaping."/>
-      <figcaption><b>System overview.</b> OmniTacTune collects visual demonstrations via human-video retargeting and VR teleoperation to train diverse base policies <b>(left)</b>, then adapts tactile feedback through a warm-start stage and an online residual-learning stage <b>(top right)</b>, using a dense multi-sensory reward to guide efficient real-world learning <b>(bottom)</b>.</figcaption>
+      <figcaption><span class="grad-text">System overview.</span> OmniTacTune collects visual demonstrations via human-video retargeting and VR teleoperation to train diverse base policies <span class="emph-blue">(left)</span>, then adapts tactile feedback through a warm-start stage and an online residual-learning stage <span class="emph-orange">(top right)</span>, using a dense multi-sensory reward to guide efficient real-world learning <span class="emph-blue">(bottom)</span>.</figcaption>
     </figure>
 
     <div class="sec-head" style="margin-top:38px;margin-bottom:10px">
@@ -481,15 +481,15 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 
     <!-- Result 1: main efficiency, fig + table stacked -->
     <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:23px;margin:0 0 4px">1. Efficient Tactile Adaptation with Real-World RL</h3>
-    <p class="lead" style="margin:0 0 18px">Across all four tasks, OmniTacTune adapts tactile feedback <b>faster and more reliably</b> than prior real-world RL methods, lifting weak base policies to <b>85–100%</b> success within 40–80 minutes of online practice.</p>
+    <p class="lead" style="margin:0 0 18px">Across all four tasks, OmniTacTune adapts tactile feedback <span class="emph-blue">faster and more reliably</span> than prior real-world RL methods, lifting weak base policies to <span class="emph-orange">85–100%</span> success within 40–80 minutes of online practice.</p>
     <div class="stack" style="margin-bottom:14px">
       <figure class="fig">
         <img src="static/figs/result_curves.png" alt="Training curves: OmniTacTune rises faster and higher than PLD*, PLD (Visual Only), and ViTAL across all four tasks."/>
-        <figcaption><b>Training efficiency.</b> OmniTacTune improves from 5–40% to 80–100% within 40–80 minutes and consistently exceeds all baselines.</figcaption>
+        <figcaption><span class="emph-blue">Training efficiency.</span> OmniTacTune improves from <span class="emph-orange">5–40% to 80–100%</span> within 40–80 minutes and consistently exceeds all baselines.</figcaption>
       </figure>
       <div class="tablecard">
         <img src="static/tables/table1.png" alt="Table 1: Final success rates across four tasks. Ours achieves 100/100/90/85, average 93.75%."/>
-        <div class="tbl-note"><b>Table 1.</b> Final success rates across the four real-world contact-rich tasks after RL training. OmniTacTune reaches a <b>93.75%</b> average, far above PLD* (52.5%), PLD Visual-Only (37.5%), and ViTAL (43.75%).</div>
+        <div class="tbl-note"><span class="emph-blue">Table 1.</span> Final success rates across the four real-world contact-rich tasks after RL training. OmniTacTune reaches a <span class="emph-orange">93.75%</span> average, far above PLD* (52.5%), PLD Visual-Only (37.5%), and ViTAL (43.75%).</div>
       </div>
     </div>
 
@@ -499,8 +499,8 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:23px;margin:0 0 16px">2. Generalizing Across Visual Base Policies</h3>
     <div class="split">
       <div>
-        <p>The residual pipeline is <span class="emph-blue">not tied to a specific policy architecture</span>. On Peg-in-Hole, OmniTacTune improves five different base policies with different <span class="emph-orange">observations</span>, <span class="emph-blue">data sources</span>, <span class="emph-orange">architectures</span>, and <span class="emph-blue">action chunks</span> — within <b>~50 minutes</b> of real-world practice.</p>
-        <p>It lifts every base policy by <b>+40% to +60%</b> success, reaching <b>75–100%</b>. The human flow policy yields the smoothest motion prior and the highest final performance.</p>
+        <p>The residual pipeline is <span class="emph-blue">not tied to a specific policy architecture</span>. On Peg-in-Hole, OmniTacTune improves five different base policies with different <span class="emph-orange">observations</span>, <span class="emph-blue">data sources</span>, <span class="emph-orange">architectures</span>, and <span class="emph-blue">action chunks</span> — within <span class="emph-orange">~50 minutes</span> of real-world practice.</p>
+        <p>It lifts every base policy by <span class="emph-orange">+40% to +60%</span> success, reaching <span class="emph-blue">75–100%</span>. The human flow policy yields the smoothest motion prior and the highest final performance.</p>
         <div style="margin-top:12px">
           <span class="pill">Flow +40–60%</span>
           <span class="pill o">ACT +55%</span>
@@ -510,7 +510,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       </div>
       <figure class="fig">
         <img src="static/figs/result_policies.png" alt="Bar chart: each base policy improved by 40-60% after OmniTacTune, reaching 75-100%."/>
-        <figcaption><b>OmniTacTune consistently improves diverse base visual policies</b> on Peg-in-Hole.</figcaption>
+        <figcaption><span class="emph-blue">OmniTacTune consistently improves diverse base visual policies</span> on Peg-in-Hole.</figcaption>
       </figure>
     </div>
 
@@ -518,10 +518,10 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 
     <!-- Result 3: vs visuo-tactile IL, table -->
     <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:23px;margin:0 0 6px">3. More Effective Than Visuo-Tactile Imitation Learning</h3>
-    <p class="lead" style="margin:0 0 18px">Online tactile residual refinement beats learning a visuo-tactile policy from <b>more</b> demonstrations — even when every imitation baseline is given an extra 50 minutes of teleoperation data.</p>
+    <p class="lead" style="margin:0 0 18px">Online tactile residual refinement beats learning a visuo-tactile policy from <span class="emph-orange">more</span> demonstrations — even when every imitation baseline is given an extra 50 minutes of teleoperation data.</p>
     <div class="tablecard">
       <img src="static/tables/table2.png" alt="Table 2: OmniTacTune outperforms ACT, ACT+Tactile, DP, RDP, Pi0.5, Pi0.5+Tactile, reaching 100% vs at most 65%."/>
-      <div class="tbl-note"><b>Table 2.</b> Success rates of visuo-tactile robot-learning methods on Peg-in-Hole. To ensure a fair comparison, <b>all baselines were given an additional 50 minutes of teleoperation data</b> (demonstrations increased from 50 to 90) — matching the budget of our online stage. Even so, imitation- and SFT-based visuo-tactile learning remains <b>20–30% behind</b> OmniTacTune, showing that contact correction is better learned through trial-and-error than from extra tactile demonstrations.</div>
+      <div class="tbl-note"><span class="emph-blue">Table 2.</span> Success rates of visuo-tactile robot-learning methods on Peg-in-Hole. To ensure a fair comparison, <span class="emph-orange">all baselines were given an additional 50 minutes of teleoperation data</span> (demonstrations increased from 50 to 90) — matching the budget of our online stage. Even so, imitation- and SFT-based visuo-tactile learning remains <span class="emph-blue">20–30% behind</span> OmniTacTune, showing that contact correction is better learned through trial-and-error than from extra tactile demonstrations.</div>
     </div>
 
     <hr class="divider" style="margin:34px 0"/>
@@ -530,7 +530,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <h3 style="font-family:'Newsreader',serif;font-weight:600;font-size:23px;margin:0 0 16px">4. Generalizing Across Tactile Representations</h3>
     <div class="split">
       <div>
-        <p>OmniTacTune is <b>not tied to a particular tactile representation</b>. On <b>Peg-in-Hole</b> and <b>Charger Insertion</b>, it adapts equally well with pretrained tactile image encoders (AnyTouch2, Sparsh, T3) and with compact low-dimensional tactile markers.</p>
+        <p>OmniTacTune is <span class="emph-blue">not tied to a particular tactile representation</span>. On <span class="emph-orange">Peg-in-Hole</span> and <span class="emph-orange">Charger Insertion</span>, it adapts equally well with pretrained tactile image encoders (AnyTouch2, Sparsh, T3) and with compact low-dimensional tactile markers.</p>
         <p>AnyTouch2 and markers reach comparable final performance, while T3 and Sparsh lag slightly on the more dynamic Charger Insertion — likely because they are not pretrained on dynamic-contact tactile data.</p>
         <div style="margin-top:12px">
           <span class="pill">AnyTouch2</span>
@@ -541,7 +541,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       </div>
       <figure class="fig">
         <img src="static/figs/result_tactile.png" alt="Radar chart: large improvement across AnyTouch2, Sparsh, T3, and Markers on both tasks after OmniTacTune."/>
-        <figcaption><b>Adapting different tactile representations</b> via OmniTacTune on two contact-rich tasks.</figcaption>
+        <figcaption><span class="emph-blue">Adapting different tactile representations</span> via OmniTacTune on two contact-rich tasks.</figcaption>
       </figure>
     </div>
   </div>
