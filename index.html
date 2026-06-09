@@ -192,8 +192,14 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 .eq{font-style:italic;font-family:'Newsreader',serif}
 .emph-blue{color:var(--blue);font-weight:800}
 .emph-orange{color:var(--orange);font-weight:800}
+.emph-green{color:#168a4a;font-weight:800}
+.emph-red{color:#cf2f45;font-weight:800}
+.emph-purple{color:var(--indigo);font-weight:800}
 .grad-text{background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
 .method-kicker{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange);background:var(--orange-soft);padding:5px 12px;border-radius:999px;margin-bottom:6px}
+.method-challenges{margin:0 auto 16px;line-height:1.7}
+.method-stages{margin:0 auto 26px;line-height:1.7}
+.method-stages .stage-gap{display:block;height:.45rem}
 </style>
 </head>
 <body>
@@ -398,7 +404,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <div class="sec-head"><span class="eyebrow">Abstract</span><h2>Abstract</h2></div>
     <div class="abstract">
       <p>
-        Visual policies learned from human videos, teleoperation, and robot demonstrations offer scalable motion priors, but often fail in contact-rich manipulation, where success significantly depends on local force and contact geometry. Tactile sensing provides these complementary signals, yet tactile data remain costly to collect and hard to generalize across sensors, robots, and tasks. We introduce <span class="hl">OmniTacTune</span>, a policy-agnostic real-world RL pipeline that adapts tactile feedback to pretrained visual policies through residual correction. OmniTacTune uses a <span class="hl">two-stage design</span>: it first warm-starts tactile-aware learning from autonomous base-policy rollouts, then learns a lightweight tactile residual policy through online interaction. Extensive experiments show that OmniTacTune generalizes across diverse contact-rich tasks, visual base policies, and tactile representations. Across four real-world contact-rich tasks, it improves visual base policies from <span class="hl">5–40% success to 85–100% within 40–80 minutes</span>, demonstrating an efficient path for adapting tactile feedback to scalable visual robot policies.
+        Visual policies learned from human videos, teleoperation, and robot demonstrations offer scalable motion priors, but often fail in contact-rich manipulation, where success significantly depends on local force and contact geometry. Tactile sensing provides these complementary signals, yet tactile data remain costly to collect and hard to generalize across sensors, robots, and tasks. We introduce <span class="hl">OmniTacTune</span>, a policy-agnostic real-world RL pipeline that adapts tactile feedback to pretrained visual policies through residual correction. OmniTacTune uses a <span class="hl">two-stage design</span>: it first bootstraps tactile-aware learning from autonomous base-policy rollouts, then learns a lightweight tactile residual policy through online interaction. Extensive experiments show that OmniTacTune generalizes across diverse contact-rich tasks, visual base policies, and tactile representations. Across four real-world contact-rich tasks, it improves visual base policies from <span class="hl">5–40% success to 85–100% within 40–80 minutes</span>, demonstrating an efficient path for adapting tactile feedback to scalable visual robot policies.
       </p>
     </div>
   </div>
@@ -410,14 +416,30 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 <section id="pipeline">
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">Method</span><h2>Two-Stage Real-World Tactile Residual RL</h2></div>
-    <p class="lead narrow" style="text-align:center;margin-bottom:26px">
-      <span class="emph-blue">Stage 1 — Tactile-Aware Bootstrapping:</span> autonomous rollouts of the frozen base policy initialize the replay buffer, bootstrap a flow-tactile critic, and adapt the tactile encoder (with ControlTac augmentation).
-      <br>
-      <span class="emph-orange">Stage 2 — Online RL:</span> a lightweight residual policy learns contact-aware corrections on top of the frozen visual policy, guided by an object-centric multi-sensory reward.
-    </p>
+    <div class="lead narrow method-challenges" style="text-align:center">
+      <span class="emph-red">Challenges:</span> contact-rich manipulation requires precise
+      <span class="emph-orange">tactile feedback</span> near contact, but existing
+      <span class="emph-purple">visual base policies</span> often fail to correct small pose errors, slips, and unstable contacts.
+      Meanwhile, collecting <span class="emph-blue">offline tactile demonstrations</span> for every task, sensor, and base policy is costly, while
+      <span class="emph-red">real-world RL from scratch</span> is inefficient and unstable.
+    </div>
+    <div class="lead narrow method-stages" style="text-align:center">
+      <span class="emph-blue">Stage 1 — Tactile-Aware Bootstrapping:</span>
+      autonomous rollouts of the <span class="emph-purple">frozen base policy</span> initialize the
+      <span class="emph-green">replay buffer</span>, bootstrap a
+      <span class="emph-orange">flow-tactile critic</span>, and adapt the
+      <span class="emph-red">tactile encoder</span> with
+      <span class="emph-blue">ControlTac augmentation</span>.
+      <span class="stage-gap"></span>
+      <span class="emph-orange">Stage 2 — Online RL:</span>
+      a lightweight <span class="emph-orange">flow-tactile residual policy</span> learns
+      <span class="emph-red">contact-aware corrections</span> on top of the
+      <span class="emph-purple">frozen visual policy</span>, guided by an
+      <span class="emph-green">object-centric multi-sensory reward</span>.
+    </div>
     <figure class="fig">
       <img src="static/figs/pipeline.png" alt="System overview: data collection and base policies; two-stage warm-start and policy learning; dense reward shaping."/>
-      <figcaption><span class="grad-text">System overview.</span> OmniTacTune collects visual demonstrations via human-video retargeting and VR teleoperation to train diverse base policies <span class="emph-blue">(left)</span>, then adapts tactile feedback through a warm-start stage and an online residual-learning stage <span class="emph-orange">(top right)</span>, using a dense multi-sensory reward to guide efficient real-world learning <span class="emph-blue">(bottom)</span>.</figcaption>
+      <figcaption><span class="grad-text">System overview.</span> OmniTacTune collects visual demonstrations via human-video retargeting and VR teleoperation to train diverse base policies <span class="emph-blue">(left)</span>, then adapts tactile feedback through a tactile-aware bootstrapping stage and an online residual-learning stage <span class="emph-orange">(top right)</span>, using a dense multi-sensory reward to guide efficient real-world learning <span class="emph-blue">(bottom)</span>.</figcaption>
     </figure>
 
     <div class="sec-head" style="margin-top:38px;margin-bottom:10px">
@@ -461,14 +483,14 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 
     <div class="sec-head" style="margin-top:42px;margin-bottom:10px">
       <span class="eyebrow">Tactile Data Augmentation</span>
-      <h2>ControlTac Augmentation for Warm-Start Tactile Learning</h2>
+      <h2>ControlTac Augmentation for Tactile-Aware Bootstrapping</h2>
     </div>
     <p class="lead narrow" style="text-align:center;margin:0 auto 22px">
-      Because the warm-start buffer holds only a few real contact pair, we use <span class="grad-text">ControlTac</span> to expand tactile diversity <span class="emph-orange">without any extra robot interaction</span>. We first remove the marker pattern from a real tactile image to obtain a marker-free reference, generate new tactile images under different contact forces (<span class="eq">&Delta;F</span>), and then composite the original markers back. <span class="emph-blue">Robot states, actions, flow features, and rewards stay unchanged</span> — only the tactile images vary — exposing the encoder and critic to richer <span class="emph-orange">contact-forces</span>.
+      Because the bootstrapping buffer holds only a few real contact pairs, we use <span class="grad-text">ControlTac</span> to expand tactile diversity <span class="emph-orange">without any extra robot interaction</span>. We first remove the marker pattern from a real tactile image to obtain a marker-free reference, generate new tactile images under different contact forces (<span class="eq">&Delta;F</span>), and then composite the original markers back. <span class="emph-blue">Robot states, actions, flow features, and rewards stay unchanged</span> — only the tactile images vary — exposing the encoder and critic to richer <span class="emph-orange">contact-forces</span>.
     </p>
     <figure class="fig">
       <img src="static/figs/controltac.png" alt="ControlTac augmentation: remove markers, generate marker-free tactile images under different contact forces, then composite markers back."/>
-      <figcaption><b><span class="emph-orange">ControlTac trajectory-level augmentation.</span></b> A real tactile image is converted to a marker-free reference, perturbed to new contact forces (e.g. <span class="eq">&Delta;F = &minus;3N</span> and <span class="eq">&Delta;F = +3N</span>) via ControlTac, and recomposed with the original marker mask — producing <b><span class="emph-blue">physically plausible tactile variants</span></b> for warm-start.</figcaption>
+      <figcaption><b><span class="emph-orange">ControlTac trajectory-level augmentation.</span></b> A real tactile image is converted to a marker-free reference, perturbed to new contact forces (e.g. <span class="eq">&Delta;F = &minus;3N</span> and <span class="eq">&Delta;F = +3N</span>) via ControlTac, and recomposed with the original marker mask — producing <b><span class="emph-blue">physically plausible tactile variants</span></b> for tactile-aware bootstrapping.</figcaption>
     </figure>
   </div>
 </section>
@@ -567,9 +589,9 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
         <img src="static/figs/ablation_policy.png" alt="Residual policy design ablation comparing keypoint conditioning, gating, and visuo-tactile inputs."/>
       </div>
       <div class="abl">
-        <h3>Warm-Start Strategy</h3>
-        <p>Optimizing the tactile encoder + critic (with ControlTac augmentation) during warm-start is critical for stable residual RL.</p>
-        <img src="static/figs/ablation_warmstart.png" alt="Warm-start ablation: removing optimization, ControlTac, critic loss, or reconstruction loss degrades performance."/>
+        <h3>Bootstrapping Strategy</h3>
+        <p>Optimizing the tactile encoder + critic (with ControlTac augmentation) during bootstrapping is critical for stable residual RL.</p>
+        <img src="static/figs/ablation_warmstart.png" alt="Bootstrapping ablation: removing optimization, ControlTac, critic loss, or reconstruction loss degrades performance."/>
       </div>
       <div class="abl">
         <h3>Action Space Design</h3>
