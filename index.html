@@ -197,6 +197,24 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
 .emph-purple{color:var(--indigo);font-weight:800}
 .grad-text{background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
 .method-kicker{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--orange);background:var(--orange-soft);padding:5px 12px;border-radius:999px;margin-bottom:6px}
+
+.method-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:24px auto 4px;max-width:960px}
+.method-detail{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow);line-height:1.6}
+.method-detail h3{font-family:'Source Sans 3',sans-serif;font-size:18px;margin:0 0 8px;color:var(--ink)}
+.method-detail p{font-size:16px;color:var(--ink-soft);margin:0 0 10px}
+.method-detail p:last-child{margin-bottom:0}
+.method-detail ul{margin:8px 0 0 18px;padding:0;color:var(--ink-soft);font-size:15.5px;line-height:1.55}
+.method-detail li{margin:4px 0}
+.residual-diagram{max-width:980px;margin:24px auto 8px;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(250,250,255,.86));border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.residual-diagram-title{text-align:center;font-family:'Newsreader',serif;font-weight:700;font-size:24px;line-height:1.25;margin:0 0 18px;color:var(--ink)}
+.diagram-row{display:grid;grid-template-columns:1fr 44px 1fr 44px 1fr;gap:10px;align-items:stretch}
+.diagram-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 15px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:112px}
+.diagram-card .dt{font-weight:800;font-size:15.5px;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.diagram-card .dd{font-size:13.5px;color:var(--muted);line-height:1.35}
+.diagram-arrow{display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.diagram-plus{display:grid;grid-template-columns:1fr 44px 1fr;gap:10px;align-items:stretch;margin:14px auto 0;max-width:600px}
+.diagram-eq{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--ink-soft);background:#fafaff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:center;margin-top:14px}
+@media(max-width:820px){.method-detail-grid{grid-template-columns:1fr}.diagram-row{grid-template-columns:1fr}.diagram-arrow{min-height:20px;transform:rotate(90deg)}.diagram-plus{grid-template-columns:1fr}.diagram-plus .diagram-arrow{transform:rotate(90deg)}}
 .method-challenges{margin:0 auto 16px;line-height:1.7}
 .method-stages{margin:0 auto 26px;line-height:1.7}
 .method-stages .stage-gap{display:block;height:.45rem}
@@ -417,11 +435,15 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
   <div class="wrap">
     <div class="sec-head"><span class="eyebrow">Method</span><h2>Two-Stage Real-World Tactile Residual RL</h2></div>
     <div class="lead narrow method-challenges" style="text-align:center">
-      <span class="emph-red">Challenges:</span> contact-rich manipulation requires precise
-      <span class="emph-orange">tactile feedback</span> near contact, but existing
-      <span class="emph-purple">visual base policies</span> often fail to correct small pose errors, slips, and unstable contacts.
-      Meanwhile, collecting <span class="emph-blue">offline tactile demonstrations</span> for every task, sensor, and base policy is costly, while
-      <span class="emph-red">real-world RL from scratch</span> is inefficient and unstable.
+      <span class="emph-red">Implementation Challenges:</span>
+      visual-only demonstrations and <span class="emph-purple">frozen base policies</span> provide no ready-to-use
+      <span class="emph-orange">tactile replay distribution</span>, making it difficult to train a
+      <span class="emph-orange">flow-tactile critic</span> or adapt a
+      <span class="emph-red">tactile encoder</span> before online interaction.
+      At the same time, early autonomous rollouts are sparse and noisy, while unrestricted
+      <span class="emph-red">real-world residual RL</span> can destabilize the useful motion prior of the base policy.
+      OmniTacTune therefore needs to first build a tactile-aware learning state, then learn only
+      <span class="emph-orange">contact-aware residual corrections</span> on top of the frozen visual policy.
     </div>
     <div class="lead narrow method-stages" style="text-align:center">
       <span class="emph-blue">Stage 1 — Tactile-Aware Bootstrapping:</span>
@@ -438,7 +460,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       <span class="emph-green">object-centric multi-sensory reward</span>.
     </div>
     <figure class="fig">
-      <img src="static/figs/pipeline.png" alt="System overview: data collection and base policies; two-stage warm-start and policy learning; dense reward shaping."/>
+      <img src="static/figs/pipeline.png" alt="System overview: data collection and base policies; two-stage tactile-aware bootstrapping and policy learning; dense reward shaping."/>
       <figcaption><span class="grad-text">System overview.</span> OmniTacTune collects visual demonstrations via human-video retargeting and VR teleoperation to train diverse base policies <span class="emph-blue">(left)</span>, then adapts tactile feedback through a tactile-aware bootstrapping stage and an online residual-learning stage <span class="emph-orange">(top right)</span>, using a dense multi-sensory reward to guide efficient real-world learning <span class="emph-blue">(bottom)</span>.</figcaption>
     </figure>
 
@@ -480,6 +502,51 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
         <figcaption class="vlabel"><div class="t">Box Opening</div><div class="d">Guidance + reward shaping</div></figcaption>
       </figure>
     </div>
+
+    <div class="residual-diagram" aria-label="Policy-agnostic residual policy and reward shaping diagram">
+      <div class="residual-diagram-title">How Generated Flow Makes Residual RL Policy-Agnostic</div>
+      <div class="diagram-row">
+        <div class="diagram-card">
+          <div class="dt"><span class="emph-purple">Any Frozen Visual Policy</span></div>
+          <div class="dd">Human-flow policy, ACT, DP, or π<sub>0.5</sub><br/>outputs a base action chunk</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-card">
+          <div class="dt"><span class="emph-blue">Shared Object-Centric Interface</span></div>
+          <div class="dd">generated keypoint goals + base-policy action chunk<br/>plus tactile feedback, no hidden states</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-card">
+          <div class="dt"><span class="emph-orange">Flow-Tactile Residual Policy</span></div>
+          <div class="dd">predicts bounded contact correction Δa<sub>res</sub><br/>only when correction is needed</div>
+        </div>
+      </div>
+      <div class="diagram-plus">
+        <div class="diagram-card">
+          <div class="dt"><span class="emph-green">Policy-Independent Reward</span></div>
+          <div class="dd">reaching + grasp/contact + flow matching + tactile stability − safety penalty</div>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-card">
+          <div class="dt"><span class="emph-red">Real-World Residual RL</span></div>
+          <div class="dd">updates residual policy, critic, and tactile encoder<br/>while keeping the base policy frozen</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="method-detail-grid">
+      <div class="method-detail">
+        <h3><span class="emph-blue">Policy-Agnostic Residual Policy</span></h3>
+        <p>The key question is how one <span class="emph-orange">residual actor</span> can correct architecturally diverse visual policies. OmniTacTune addresses this through <span class="emph-blue">interface-level agnosticism</span>: the residual actor avoids policy-specific hidden states, visual tokens, or network internals.</p>
+        <p>Instead, it uses two policy-independent inputs: <span class="emph-blue">generated keypoint goals</span> for shared task-level guidance, and the <span class="emph-purple">base-policy action chunk</span> for short-horizon motion intent. Together with <span class="emph-red">tactile feedback</span>, this common interface enables closed-loop correction without finetuning the frozen visual policy.</p>
+      </div>
+      <div class="method-detail">
+        <h3><span class="emph-orange">Object-Centric Reward Shaping</span></h3>
+        <p>The reward is also independent of the base policy. Instead of rewarding a particular policy representation, OmniTacTune computes dense feedback from <span class="emph-green">generated flow, contact signal, and safety constraints</span>. This lets the same reward train residual RL across different policies and tasks.</p>
+        <p>At a high level, the reward guides the robot toward the object, encourages stable grasp with tactile, and matches observed object motion to the <span class="emph-blue">generated object-centric flow</span>. Tactile terms penalize slip or unsafe contact, while a terminal success reward anchors dense shaping to the actual task objective.</p>
+      </div>
+    </div>
+
 
     <div class="sec-head" style="margin-top:42px;margin-bottom:10px">
       <span class="eyebrow">Tactile Data Augmentation</span>
