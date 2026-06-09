@@ -412,6 +412,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <div class="sec-head"><span class="eyebrow">Method</span><h2>Two-Stage Real-World Tactile Residual RL</h2></div>
     <p class="lead narrow" style="text-align:center;margin-bottom:26px">
       <span class="emph-blue">Stage 1 — Tactile-Aware Bootstrapping:</span> autonomous rollouts of the frozen base policy initialize the replay buffer, bootstrap a flow-tactile critic, and adapt the tactile encoder (with ControlTac augmentation).
+      <br>
       <span class="emph-orange">Stage 2 — Online RL:</span> a lightweight residual policy learns contact-aware corrections on top of the frozen visual policy, guided by an object-centric multi-sensory reward.
     </p>
     <figure class="fig">
