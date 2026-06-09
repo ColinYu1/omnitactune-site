@@ -436,14 +436,13 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <div class="sec-head"><span class="eyebrow">Method</span><h2>Two-Stage Real-World Tactile Residual RL</h2></div>
     <div class="lead narrow method-challenges" style="text-align:center">
       <span class="emph-red">Implementation Challenges:</span>
-      visual-only demonstrations and <span class="emph-purple">frozen base policies</span> provide no ready-to-use
-      <span class="emph-orange">tactile replay distribution</span>, making it difficult to train a
-      <span class="emph-orange">flow-tactile critic</span> or adapt a
-      <span class="emph-red">tactile encoder</span> before online interaction.
-      At the same time, early autonomous rollouts are sparse and noisy, while unrestricted
-      <span class="emph-red">real-world residual RL</span> can destabilize the useful motion prior of the base policy.
-      OmniTacTune therefore needs to first build a tactile-aware learning state, then learn only
-      <span class="emph-orange">contact-aware residual corrections</span> on top of the frozen visual policy.
+      adapting a new <span class="emph-orange">tactile modality</span> to a frozen visual policy is difficult because
+      visual demonstrations provide motion priors but no offline <span class="emph-orange">tactile interaction data</span>
+      for replay buffer and critic initialization. Moreover, off-the-shelf
+      <span class="emph-red">tactile encoders</span> are not directly reliable under task-specific contact distributions. 
+      OmniTacTune therefore first uses autonomous base-policy rollouts and
+      <span class="emph-blue">ControlTac augmentation</span> to initialize a replay buffer, adapt the encoder,
+      and bootstrap a <span class="emph-orange">flow-tactile critic</span> before online residual RL.
     </div>
     <div class="lead narrow method-stages" style="text-align:center">
       <span class="emph-blue">Stage 1 — Tactile-Aware Bootstrapping:</span>
@@ -542,8 +541,8 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
       </div>
       <div class="method-detail">
         <h3><span class="emph-orange">Object-Centric Reward Shaping</span></h3>
-        <p>The reward is also independent of the base policy. Instead of rewarding a particular policy representation, OmniTacTune computes dense feedback from <span class="emph-green">generated flow, contact signal, and safety constraints</span>. This lets the same reward train residual RL across different policies and tasks.</p>
-        <p>At a high level, the reward guides the robot toward the object, encourages stable grasp with tactile, and matches observed object motion to the <span class="emph-blue">generated object-centric flow</span>. Tactile terms penalize slip or unsafe contact, while a terminal success reward anchors dense shaping to the actual task objective.</p>
+        <p>The reward is also independent of the base policy. Instead of rewarding a particular policy representation, OmniTacTune computes dense feedback from <span class="emph-green">task geometry, generated flow, tactile contact, and safety constraints</span>. This lets the same reward train residual RL across different policies and tasks.</p>
+        <p>At a high level, the reward guides the robot toward the object, encourages stable grasp/contact, and matches observed object motion to the <span class="emph-blue">generated object-centric flow</span>. Tactile terms penalize slip or unsafe contact, while a terminal success reward anchors dense shaping to the actual task objective.</p>
       </div>
     </div>
 
