@@ -1,0 +1,21 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OmniTacTune symbol">
+  <defs>
+    <linearGradient id="g" x1="12" y1="14" x2="86" y2="84" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3A1D9E"/>
+      <stop offset="0.48" stop-color="#2A37C9"/>
+      <stop offset="1" stop-color="#D63AA6"/>
+    </linearGradient>
+    <linearGradient id="s" x1="28" y1="26" x2="70" y2="72" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.72"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="80" height="80" rx="24" fill="url(#g)"/>
+  <path d="M25 54C25 40.2 35.5 29 48.8 29C61.1 29 70.8 38.1 70.8 49.6C70.8 60.1 62.8 68.2 52.6 68.2C43.5 68.2 36.5 61.8 36.5 53.6C36.5 46.5 42 41 48.8 41C54.6 41 59 45 59 50.2C59 54.5 55.8 57.8 51.7 57.8" stroke="url(#s)" stroke-width="5.2" stroke-linecap="round"/>
+  <circle cx="31" cy="32" r="3.2" fill="white" fill-opacity="0.95"/>
+  <circle cx="43" cy="25" r="2.9" fill="white" fill-opacity="0.82"/>
+  <circle cx="61" cy="28" r="3.1" fill="white" fill-opacity="0.9"/>
+  <circle cx="27" cy="64" r="2.8" fill="white" fill-opacity="0.78"/>
+  <circle cx="69" cy="66" r="3.4" fill="white" fill-opacity="0.9"/>
+  <path d="M70.5 23.5C76.5 29.4 80 37.7 80 46.6" stroke="white" stroke-opacity="0.75" stroke-width="4" stroke-linecap="round"/>
+</svg>
