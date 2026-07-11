@@ -307,6 +307,7 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
     <div class="links">
       <a class="btn" href="static/paper.pdf" target="_blank" rel="noopener"><span class="dot"></span>Paper</a>
       <a class="btn" href="https://arxiv.org/pdf/2607.03723" target="_blank" rel="noopener"><span class="dot"></span>arXiv</a>
+      <a class="btn" href="https://x.com/ColinYu14116982/status/2074536672042136040" target="_blank" rel="noopener"><span class="dot"></span>Twitter <span id="twitter-live-count" aria-live="polite">· Live</span></a>
       <a class="btn" href="https://www.youtube.com/watch?v=anRD7lhhwH4" target="_blank" rel="noopener"><span class="dot"></span>Video</a>
     </div>
   </div>
@@ -718,13 +719,14 @@ footer{padding:48px 0 60px;border-top:1px solid var(--line);margin-top:30px;text
   <div class="wrap narrow">
     <div class="sec-head"><span class="eyebrow">Citation</span><h2>BibTeX</h2></div>
     <div class="bib">
-<span class="k">@misc</span>{yu2026omnitactune,<br/>
+<span class="k">@misc</span>{yu2026omnitactunepolicyagnosticrealworldrl,<br/>
 &nbsp;&nbsp;title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {<span class="s">OmniTacTune: Policy-Agnostic Real-World RL for Tactile Residual Adaptation of Visual Policies</span>},<br/>
-&nbsp;&nbsp;author&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {Yu, Kelin and Zhang, Haode and Ravichandar, Harish and Han, Yunhai and Gao, Ruohan},<br/>
+&nbsp;&nbsp;author&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {Kelin Yu and Haode Zhang and Harish Ravichandar and Yunhai Han and Ruohan Gao},<br/>
 &nbsp;&nbsp;year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {2026},<br/>
-&nbsp;&nbsp;eprint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {2607.03723},<br/>
+&nbsp;&nbsp;eprint&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {2607.03723},<br/>
 &nbsp;&nbsp;archivePrefix = {arXiv},<br/>
-&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {<span class="s">https://arxiv.org/pdf/2607.03723</span>}<br/>
+&nbsp;&nbsp;primaryClass&nbsp;&nbsp;= {cs.RO},<br/>
+&nbsp;&nbsp;url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= {<span class="s">https://arxiv.org/abs/2607.03723</span>},<br/>
 }
     </div>
   </div>
@@ -767,6 +769,26 @@ const resultIO=new IntersectionObserver((entries,observer)=>{
   });
 },{threshold:0.22, rootMargin:'0px 0px -8% 0px'});
 animatedResults.forEach(img=>resultIO.observe(img));
+
+// Load the latest public view count for the project announcement on X/Twitter.
+(async()=>{
+  const el=document.getElementById('twitter-live-count');
+  if(!el) return;
+  try{
+    const endpoint='https://cdn.syndication.twimg.com/tweet-result?id=2074536672042136040&lang=en';
+    const response=await fetch(endpoint,{cache:'no-store'});
+    if(!response.ok) throw new Error('Unable to load tweet metrics');
+    const data=await response.json();
+    const rawViews=data?.views?.count ?? data?.view_count ?? data?.views;
+    const views=Number(rawViews);
+    if(Number.isFinite(views) && views>=0){
+      el.textContent=`· ${new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:1}).format(views)} views`;
+      el.title=`${new Intl.NumberFormat('en-US').format(views)} views on X`;
+    }
+  }catch(_err){
+    el.textContent='· Live';
+  }
+})();
 </script>
 </body>
 </html>
